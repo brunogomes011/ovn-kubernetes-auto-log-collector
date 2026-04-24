@@ -1,0 +1,31 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: master
+  name: 99-master-ovn-auto-log-collector-remove-after-utilization
+spec:
+  config:
+    ignition:
+      version: 3.2.0
+    systemd:
+      units:
+      - contents: |
+          [Unit]
+          Description=OVN auto log collector script 
+          After=kubelet.service
+          [Service]
+          Type=simple
+          ExecStart=/bin/bash /usr/local/bin/ovn-auto-log-collector-remove-it.sh
+          Restart=always
+          RestartSec=3
+          [Install]
+          WantedBy=multi-user.target
+        enabled: true
+        name: ovn-auto-log-collector-workaround.service
+    storage:
+      files:
+      - contents:
+          source: data:text/plain;charset=utf-8;base64,am91cm5hbGN0bCAtdSBrdWJlbGV0IC1mIHwgZ3JlcCAtLWxpbmUtYnVmZmVyZWQgIlN5bmNMb29wIERFTEVURSIgfCBncmVwIC1FIC0tbGluZS1idWZmZXJlZCAib3Zua3ViZS1ub2RlfG92bmt1YmUtY29udHJvbC1wbGFuZSIgfCB3aGlsZSByZWFkIC1yIGxpbmU7ICBkbyBlY2hvICJXb3JrYXJvdW5kIHwgT1ZOIGF1dG8gbG9nIGNvbGxlY3RvciB8IFN0YXJ0aW5nIHRoZSBsb2cgY29weSI7IG1rZGlyIC1wIC92YXIvdG1wL292bi1hdXRvLWxvZy1jb2xsZWN0b3ItJChkYXRlIC11ICslZF8lbV8lWS0lSF8lTS0lWik7IGNwIC1ycCAvdmFyL2xvZy9wb2RzL29wZW5zaGlmdC1vdm4ta3ViZXJuZXRlc19vdm5rdWJlLSogL3Zhci90bXAvb3ZuLWF1dG8tbG9nLWNvbGxlY3Rvci0kKGRhdGUgLXUgKyVkXyVtXyVZLSVIXyVNLSVaKTsgZWNobyAiV29ya2Fyb3VuZCB8IE9WTiBsb2cgZ3JhYmJlciB8IEFsbCBsb2dzIGhhdmUgYmVlbiBzdWNjZXNzZnVsbHkgY29waWVkIHwgRG9udCBmb3JnZXQgdG8gcmVtb3ZlIHRoZSBtYWNoaW5lIGNvbmZpZyI7ZG9uZQ==
+        mode: 493
+        path: /usr/local/bin/ovn-auto-log-collector-remove-it.sh
