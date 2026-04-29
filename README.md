@@ -6,7 +6,7 @@ This project collects OVN-Kubernetes logs automatically during machine config ro
 
 ~~~
 $ curl -O https://raw.githubusercontent.com/brunogomes011/ovn-kubernetes-auto-log-collector/refs/heads/main/auto-log-collector-machine-config.yaml
-oc create -f auto-log-collector-machine-config.yaml <--- Change the labels or any desired information before applying the config
+$ oc create -f auto-log-collector-machine-config.yaml <--- Change the labels or any desired information before applying the config
 ~~~
 
 2. Take the logs and save it in a directory
